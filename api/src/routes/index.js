@@ -108,18 +108,10 @@ router.post('/dog', async (req, res) => {
         temperament,
         img,
         origin,
-        dogsdb,
-        //temperament,
-        /// ** traigo lo q me pide por Body **                  
-        // Imagen,
-        // Nombre,
-        // Temperamento,
-        // Peso,
+        dogsdb,    
     } = req.body
     
-    //console.log('************ ERROR NAME',name);
-
-    console.log('************ ERROR REQ BODY',req.body);
+    //console.log('************ ERROR REQ BODY',req.body); el error era Defaul sin t jaja
 
     let dogCreated = await Dog.create ({                
         name,
@@ -132,7 +124,7 @@ router.post('/dog', async (req, res) => {
         origin,
         dogsdb,
     })
-    let temperamentDb = await temperament.findAll({
+    let temperamentDb = await Temperament.findAll({
         where: {name : temperament}
     })
     dogCreated.addTemperament(temperamentDb)

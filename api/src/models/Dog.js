@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
     id:{
       primaryKey: true,
       type: DataTypes.UUID, //me permite crear un valor unico de letras y numeros que no se repite y no choque con mi table
-      defaulValue: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4(),
       allowNull: false,      
     },
     img:{
@@ -43,7 +43,7 @@ module.exports = (sequelize) => {
     dogsdb:{   
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaulValue: true,
+      defaultValue: true,
     },  
   },{timestamps:true} 
   );
