@@ -1,40 +1,51 @@
 const { DataTypes } = require('sequelize');
 // Exportamos una funcion que define el modelo
-// Luego le injectamos la conexion a sequelize.
 
+// Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
   // defino el modelo
-  sequelize.define('Dog', {    
+  const Dog = sequelize.define('Dog', {    
     id:{
-      type: DataTypes.UUID, //me permite crear un valor unico de letras y numeros que no se repite yno choque con mi table
-      defaulValue: DataTypes.UUIDV4,
-      allowNull: false,
       primaryKey: true,
+      type: DataTypes.UUID, //me permite crear un valor unico de letras y numeros que no se repite y no choque con mi table
+      defaulValue: DataTypes.UUIDV4,
+      allowNull: false,      
     },
-    name: {
+    img:{
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    name:{
       type: DataTypes.STRING,
       allowNull: false,
     },
-    heightmin: {
-      type: DataTypes.INTEGER,
+    heightmin:{
+      type: DataTypes.STRING,
       allowNull: false,
     },    
-    heightmax: {
-      type: DataTypes.INTEGER,
+    heightmax:{
+      type: DataTypes.STRING,
       allowNull: false,
     },    
+    // weight es altura
     weight:{
       type: DataTypes.STRING,
       allowNull: false,
     },
     lifespan:{
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
     },
-    DogsBD: {    // me permite saber si esta en la base de datos el dato que llamo
+    origin:{
+      type: DataTypes.STRING,
+    },
+     // me permite saber si esta en la base de datos el dato que llamo
+    dogsdb:{   
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaulValue: true,
-    }   
-  });
+    },  
+  },{timestamps:true} 
+  );
+  return Dog;
 };
