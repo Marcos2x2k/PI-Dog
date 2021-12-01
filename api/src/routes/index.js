@@ -8,7 +8,6 @@ const {DB_API} = process.env;
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
-
 // const dogsRouter = require('./dogs.js');
 // const temperamentsRouter = require('./temperaments.js');
 
@@ -25,17 +24,19 @@ const router = Router();
             headers: {'x-api-key': `${DB_API}`}});           
         const apiInfo = apiHtml.data.map(p => { //creo un objeto q mapee y devuelva solo lo q necesito para mi app de la Api
         return {
-            name: p.name,            
-            width: p.width,
+            //id: p.id,
+            name: p.name,
             heightmin: p.height.metric,
-            heightmax: p.height.metric,            
+            heightmax: p.height.metric,
+            widthmin: p.width,
+            widthmax: p.width,            
             lifespan: p.life_span,
             temperament: p.temperament,
             origin: p.origin,
             bredfor: p.bred_for,
             breedgroup: p.breed_group,
-            imgid: p.image.id,
-            img: p.image.url, 
+            imageid: p.image.id,
+            image: p.image.url, 
             // la imagen viene en este formato
             //"reference_image_id":"BJa4kxc4X","image":{"id":"BJa4kxc4X","width":1600,"height":1199,"url":"https://cdn2.thedogapi.com/images/BJa4kxc4X.jpg"}                        
         };    
@@ -48,7 +49,7 @@ const router = Router();
 // no llamo id porque ya me lo trae automaticamente
 const getDbInfo = async () => {
     return await Dog.findAll ({  //traigo la info de mi base de datos
-    include: {  // ademas de todo traeme temperament 
+    include:{  // ademas de todo traeme temperament 
       model: Temperament,      
       attributes: ['name'],
       through: { // va siempre en las llamadas y comprueba que llame atributo name en este caso 
@@ -58,7 +59,7 @@ const getDbInfo = async () => {
     })
 };
 
-// creo una funcion que me traiga todo
+// creo una funcion que me traiga todo desde la Api y La dB
 const getAllDogs = async () => {
     const apiInfo = await getApiInfo();
     const dbInfo = await getDbInfo();
@@ -66,9 +67,9 @@ const getAllDogs = async () => {
     return infoTotal;
 };
 
-//defino el middleware
+//defino el middleware AVERIGUAR BIEN CUAL ES EL MIDLEWARE
 
-router.get ('/dog', async (req, res) =>{
+router.get ('/dogs', async (req, res) =>{
     const name = req.query.name   //req query busca si hay un name por query
     let dogsAll = await getAllDogs();
     if (name){
@@ -90,7 +91,7 @@ router.get('/temperament', async (req, res) => {
     const splittemperament = temperaments.filter(p => p.length > 0);
     //console.log (splittemperament) compruebo lo q trae
     splittemperament.forEach(p => {
-        Temperament.findOrCreate({
+        temperament.findOrCreate({
             where: {name: p}
         })
     });
@@ -98,29 +99,39 @@ router.get('/temperament', async (req, res) => {
     res.send(allTemperament);
 });
 
-router.post('/dog', async (req, res) => {
-    let {         
+router.post('/dogs', async (req, res) => {
+    let {                
         name,
         heightmin,
         heightmax, 
-        weight,          
+        weightmin,
+        weightmax,          
         lifespan,
         temperament,
-        img,
+        image,
         origin,
-        dogsdb,    
+        dogsdb,
+        //temperament,
+        /// ** traigo lo q me pide por Body **                  
+        // Imagen,
+        // Nombre,
+        // Temperamento,
+        // Peso,
     } = req.body
     
-    //console.log('************ ERROR REQ BODY',req.body); el error era Defaul sin t jaja
+    //console.log('************ ERROR NAME',name);
 
-    let dogCreated = await Dog.create ({                
+    //console.log('************ ERROR REQ BODY',req.body); el error era Defaul sin t
+
+    let dogCreated = await Dog.create ({                          
         name,
         heightmin,
         heightmax, 
-        weight,          
+        weightmin,
+        weightmax,          
         lifespan,
         temperament,
-        img,
+        image,
         origin,
         dogsdb,
     })
@@ -128,19 +139,34 @@ router.post('/dog', async (req, res) => {
         where: {name : temperament}
     })
     dogCreated.addTemperament(temperamentDb)
-    res.send('Dog Creado Exitosamente')
+    res.send('Perro Creado Exitosamente')
+});
+
+router.get('/dog/:id', async (req, res) => {
+        const id = req.params.id;
+        const dogsTotal = await getAllDogs()
+        if (id){
+            let dogId = await dogsTotal.filter(p => p.id == id)
+            dogId.length?
+            res.status(200).send(dogId) :
+            res.status(404).send('no se encontro el Perro Buscado')
+        }
 });
 
 
 module.exports = router;
 
 
+
 // *** carga de prueba en post
-// 'img' : 'https://estaticos.muyinteresante.es/media/cache/1140x_thumb/uploads/images/gallery/59bbb29c5bafe878503c9872/husky-siberiano-bosque.jpg',
-// 'name': 'Jeison',
-// 'heightmin' : '12',
-// 'heightmax' : '8',
-// 'weight' : '15',
-// 'temperament': ['Stubborn','Adventurous'],
+// {
+//     "img" : "https://estaticos.muyinteresante.es/media/cache/1140x_thumb/uploads/images/gallery/59bbb29c5bafe878503c9872/husky-siberiano-bosque.jpg",
+//     "name": "Jeison",
+//     "heightmin" : "12",
+//     "heightmax" : "8",
+//     "weightmin" : "5",
+//     "weightmax" : "15",
+//     "temperament": ["Stubborn","Adventurous"]
+// }
 
 

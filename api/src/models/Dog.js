@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
     id:{
       primaryKey: true,
       type: DataTypes.UUID, //me permite crear un valor unico de letras y numeros que no se repite y no choque con mi table
-      defaultValue: DataTypes.UUIDV4(),
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,      
     },
     img:{
@@ -28,10 +28,13 @@ module.exports = (sequelize) => {
       allowNull: false,
     },    
     // weight es altura
-    weight:{
+    weightmin:{
       type: DataTypes.STRING,
       allowNull: false,
     },
+    weightmax:{
+      type: DataTypes.STRING,
+      allowNull: false,
     lifespan:{
       type: DataTypes.STRING,
       allowNull: true,
@@ -45,7 +48,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: true,
     },  
-  },{timestamps:true} 
-  );
+  }//,timestamps:true
+  });
   return Dog;
 };
