@@ -24,7 +24,7 @@ const router = Router();
             headers: {'x-api-key': `${DB_API}`}});           
         const apiInfo = apiHtml.data.map(p => { //creo un objeto q mapee y devuelva solo lo q necesito para mi app de la Api
         return {
-            //id: p.id,
+            id: p.id,
             name: p.name,
             heightmin: p.height.metric,
             heightmax: p.height.metric,
@@ -35,8 +35,8 @@ const router = Router();
             origin: p.origin,
             bredfor: p.bred_for,
             breedgroup: p.breed_group,
-            imageid: p.image.id,
-            image: p.image.url, 
+            imgid: p.image.id,
+            img: p.image.url, 
             // la imagen viene en este formato
             //"reference_image_id":"BJa4kxc4X","image":{"id":"BJa4kxc4X","width":1600,"height":1199,"url":"https://cdn2.thedogapi.com/images/BJa4kxc4X.jpg"}                        
         };    
@@ -88,14 +88,16 @@ router.get('/temperament', async (req, res) => {
     const temperament = apiHtml.data.map(p => p.temperament)
 
     const temperaments = temperament.toString().trim().split(/\s*,\s*/);
-    const splittemperament = temperaments.filter(p => p.length > 0);
-    //console.log (splittemperament) compruebo lo q trae
+    const splittemperament = await temperaments.filter(p => p.length > 0);
+
+    //console.log (splittemperament) //compruebo lo q trae
+    
     splittemperament.forEach(p => {
-        temperament.findOrCreate({
-            where: {name: p}
-        })
-    });
-    const allTemperament = await temperament.findAll();
+        // console.log (p)
+        // me traigo los temperamentos de la base de datos busca o lo crea si no existe
+        if (p!==undefined) Temperament.findOrCreate({where: {name: p}})});
+
+    const allTemperament = await Temperament.findAll();
     res.send(allTemperament);
 });
 
@@ -108,7 +110,7 @@ router.post('/dogs', async (req, res) => {
         weightmax,          
         lifespan,
         temperament,
-        image,
+        img,
         origin,
         dogsdb,
         //temperament,
@@ -131,7 +133,7 @@ router.post('/dogs', async (req, res) => {
         weightmax,          
         lifespan,
         temperament,
-        image,
+        img,
         origin,
         dogsdb,
     })
@@ -142,7 +144,7 @@ router.post('/dogs', async (req, res) => {
     res.send('Perro Creado Exitosamente')
 });
 
-router.get('/dog/:id', async (req, res) => {
+router.get('/dogs/:id', async (req, res) => {
         const id = req.params.id;
         const dogsTotal = await getAllDogs()
         if (id){
@@ -169,4 +171,13 @@ module.exports = router;
 //     "temperament": ["Stubborn","Adventurous"]
 // }
 
+// {
+//     "name": "Rodrigo",
+//     "image": "https://images.unsplash.com/photo-1637545255701-ecaea910dd35?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+//     "height": "3 - 15",
+//     "weight": "6 - 10",
+//     "life_span": "4 - 10 years",
+//     "temperament": "Intelligent",
+//     "createdInDb": true
+//   }
 
