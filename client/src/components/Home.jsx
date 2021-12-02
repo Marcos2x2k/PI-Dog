@@ -21,7 +21,7 @@ export default function Home (){
 
     return (
         <div>
-            <Link to = '/dog'>CREAR PERRO</Link> 
+            <Link to = '/dogs'>CREAR PERRO</Link> 
             <h1>AGUANTE DOGS</h1>
 
             <button onClick={p => {handleClick(p)}}>
@@ -48,10 +48,11 @@ export default function Home (){
                 {allDogs?.map ((el) =>{ 
                     return(
                     // paso como props name, image */}
-                    <Fragment key={el.id}>
+                    // <Fragment key={el.id}>
+                    <Fragment className='cartas'>
                         <Link to={"/home/" + el.id}>  
-                             <Card name={el.name} image={el.image} temperament={el.temperament}/>
-                              {/* heightmin={el.heightmin} heightmax={el.heightmax} key={el.id}/> */}
+                             <Card name={el.name} img={el.img} temperament={el.temperament} key={el.id}/>                              
+                             {/*  heightmin={el.heightmin} heightmax={el.heightmax} key={el.id}/> */}
                         </Link>
                     </Fragment>
                     )} 
