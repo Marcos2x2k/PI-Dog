@@ -10,3 +10,24 @@ export function getDogs(){
     })
 }
 };
+// la logica siempre hacerla en reducer o components
+export function filterDogsByStatus(payload){
+    console.log (payload)
+    return {
+        type: 'FILTER_BY_STATUS',
+        payload
+    }
+};
+//hacemos la accion de filtrar por API o Bdatos // payload trae el value de la accion q elija
+export function filterCreated(payload){
+    return{
+        type: 'FILTER_CREATED',
+        payload
+    }
+};
+export function orderByName(payload){
+    return{
+        type: 'ORDER_BY_NAME',
+        payload
+    }
+}

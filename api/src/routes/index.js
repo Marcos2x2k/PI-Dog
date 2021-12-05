@@ -26,10 +26,8 @@ const router = Router();
         return {
             id: p.id,
             name: p.name,
-            heightmin: p.height.metric,
-            heightmax: p.height.metric,
-            widthmin: p.width,
-            widthmax: p.width,            
+            height: p.height.metric,            
+            width: p.width,            
             lifespan: p.life_span,
             temperament: p.temperament,
             origin: p.origin,
@@ -104,10 +102,8 @@ router.get('/temperament', async (req, res) => {
 router.post('/dogs', async (req, res) => {
     let {                
         name,
-        heightmin,
-        heightmax, 
-        weightmin,
-        weightmax,          
+        height,
+        weight,          
         lifespan,
         temperament,
         img,
@@ -127,10 +123,8 @@ router.post('/dogs', async (req, res) => {
 
     let dogCreated = await Dog.create ({                          
         name,
-        heightmin,
-        heightmax, 
-        weightmin,
-        weightmax,          
+        height,         
+        weight,          
         lifespan,
         temperament,
         img,
@@ -164,10 +158,8 @@ module.exports = router;
 // {
 //     "img" : "https://estaticos.muyinteresante.es/media/cache/1140x_thumb/uploads/images/gallery/59bbb29c5bafe878503c9872/husky-siberiano-bosque.jpg",
 //     "name": "Jeison",
-//     "heightmin" : "12",
-//     "heightmax" : "8",
-//     "weightmin" : "5",
-//     "weightmax" : "15",
+//     "height" : "12 - 17",
+//     "weight" : "15 - 20",
 //     "temperament": ["Stubborn","Adventurous"]
 // }
 

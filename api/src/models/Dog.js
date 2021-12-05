@@ -19,22 +19,15 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    heightmin:{
-      type: DataTypes.STRING,
-      allowNull: false,
-    },    
-    heightmax:{
-      type: DataTypes.STRING,
-      allowNull: false,
-    },    
-    // weight es altura
-    weightmin:{
+    height:{
       type: DataTypes.STRING,
       allowNull: false,
     },
-    weightmax:{
+    // weight es altura
+    weight:{
       type: DataTypes.STRING,
       allowNull: false,
+    },
     lifespan:{
       type: DataTypes.STRING,
       allowNull: true,
@@ -46,9 +39,9 @@ module.exports = (sequelize) => {
     dogsdb:{   
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: true,
-    },  
+      defaultValue: true
+    }, 
   }//,timestamps:true
-  });
+  );
   return Dog;
 };
