@@ -108,13 +108,8 @@ router.post('/dogs', async (req, res) => {
         temperament,
         img,
         origin,
-        dogsdb,
-        //temperament,
-        /// ** traigo lo q me pide por Body **                  
-        // Imagen,
-        // Nombre,
-        // Temperamento,
-        // Peso,
+        dogsdb,        
+        /// ** traigo lo q me pide por Body ** 
     } = req.body
     
     //console.log('************ ERROR NAME',name);

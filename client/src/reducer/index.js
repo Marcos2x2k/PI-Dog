@@ -1,7 +1,8 @@
 
 const initialState = {
         dogs:[],
-        allDogs:[]
+        allDogs:[],
+        temperaments:[]
 }
 
 function rootReducer (state = initialState, action){
@@ -11,7 +12,20 @@ function rootReducer (state = initialState, action){
                     ...state, // guardamos el estado anterior por costumbre
                     dogs: action.payload,
                     allDogs: action.payload
-                }                
+                }    
+                
+            case 'GET_NAME_DOGS':
+                return {
+                    ...state,
+                    dogs: action.payload
+                }
+
+            case 'GET_TEMPETAMENTS':
+                return {
+                    ...state,
+                    temperaments: action.payload
+                }
+
             case 'FILTER_BY_STATUS': 
                 const allDogs = state.allDogs
                 const statusFiltered = action.payload === 'All' ? allDogs : allDogs.filter(el => el.status === action.payload)
@@ -19,6 +33,10 @@ function rootReducer (state = initialState, action){
                         ...state,
                         dogs: statusFiltered
                 }
+             case "POST_DOG":
+                 return{
+                    ...state
+                 }
                 // ? es entonces
                 // : es sino
             case 'FILTER_CREATED':

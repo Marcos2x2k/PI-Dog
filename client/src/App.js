@@ -4,6 +4,7 @@ import {BrowserRouter,Routes, Route } from 'react-router-dom'; //Switch fue reem
 // importo los Components
 import LandingPage from './components/LandingPage.jsx'
 import Home from './components/Home.jsx';
+import DogCreate from './components/DogCreate';
 
 const App = () => {
   return (
@@ -14,6 +15,8 @@ const App = () => {
       <Routes>
         <Route exact path='/' element={<LandingPage/>}/>
         <Route exact path='/home' element={<Home/>}/>
+        <Route path='/dogs' element={<DogCreate/>}/>
+        {/* <Route exact path='/home/:id' element={<Detail/>}/> */}
       </Routes>      
     </div>
     //  </BrowserRouter>

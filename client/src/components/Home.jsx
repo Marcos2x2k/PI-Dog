@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from './Card';
 import Paginado from './Paginado';
+import SearchBar from './SearchBar';
 
 import {useState, useEffect, Fragment} from 'react'; //  HOOK USAMOS useState es un hook
 import {Link} from 'react-router-dom';
@@ -60,13 +61,13 @@ export default function Home (){
             <button onClick={p => {handleClick(p)}}>
                 Volver a Cargar todos los Perros
             </button>
-            <button onClick={p => {handleClick(p)}}>
+            {/* <button onClick={p => {handleClick(p)}}>
                 Anterior
             </button>
             <button onClick={p => {handleClick(p)}}>
                 Siguiente
-            </button>       
-                 
+            </button>        */}
+
             <div>
                 <select onChange={p => handleSort(p)}>
                     <option value='asc'>Ascendente</option>
@@ -85,14 +86,16 @@ export default function Home (){
                     <option value='api'>Existentes</option>
                 </select>   
                 <div>
-                    <Link to = '/'>CREAR PERRO</Link>
+                    <Link to = '/Dogs/'>CREAR PERRO</Link>
                 </div>              
 
                 {/* aca defino las props que necesita el paginado */}
                 <Paginado
                     dogsPerPage = {dogsPerPage}
                     allDogs={allDogs.length}
-                    paginado = {paginado}
+                    paginado = {paginado}                    
+                />
+                <SearchBar
                 />
 
                 {currentDogs?.map ((el) =>{ 
@@ -102,7 +105,7 @@ export default function Home (){
                     <Fragment className='cartas'>
                     <div>    
                             <Link to={"/home/" + el.id}>  
-                                <Card name={el.name} img={el.img} temperament={el.temperament} key={el.id} height={el.height} height={el.height} />
+                                <Card name={el.name} img={el.img ? el.img : el.img} temperament={el.temperament} key={el.id} height={el.height} height={el.height} />
                             </Link>
                     </div>
                     </Fragment> 
